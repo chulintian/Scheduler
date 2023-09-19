@@ -1,17 +1,35 @@
 # import module
-import openpyxl
+from xlsxReader import *
+from shiftAssigner import *
+from xlsxWriter import *
+import heapq as hq
+import argparse
 
-# load excel with its path
-workbook = openpyxl.load_workbook("C:\\Users\\ASUS\\Downloads\\Test for SMU Shop(1-4).xlsx")
 
-sh = workbook.active
-dataDict = {}
+def main(xlsxFilename, monthYear):
+    # get month and year from param
+    monthYear = monthYear.split("/")
+    month = int(monthYear[0])
+    year = int(monthYear[1])
+    
+    people = xlsxReader(xlsxFilename)
 
-# iterate through excel and display data
-for i in range(1, sh.max_row+1):
-	print("\n")
-	print("Row ", i, " data :")
+    shiftList = shiftAssigner(people, year, month)
+
+    xlsxWriter(people, month, year, shiftList)
 	
-	for j in range(1, sh.max_column+1):
-		cell_obj = sh.cell(row=i, column=j)
-		print(cell_obj.value, end=" ")
+    
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Scheduling Tool")
+    parser.add_argument("xlsxFile", help="Path to the Excel file")
+    parser.add_argument("monthYear", help="Month and year (e.g., '9/2023')")
+
+    args = parser.parse_args()
+    main(args.xlsxFile, args.monthYear)
+    
+### Instructions to run file
+
+# Open command prompt
+# Command: python xlsxReader.py "C:\path\to\your\file.xlsx" "9/2023"
+# Replace "C:\path\to\your\file.xlsx" with the actual path to the Excel file you want to process.
+# RUN Command in CMD
