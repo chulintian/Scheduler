@@ -35,7 +35,7 @@ class Person:
         self.desiredShifts = shifts
         self.daysNotAvailable = unavailable
         self.jobs = 0
-        self.week = [0,0,0,0,0]
+        self.week = [0,0,0,0,0,0]
         self.name = name
 
     def numJobs(self):
