@@ -27,9 +27,3 @@ if __name__ == "__main__":
     args = parser.parse_args()
     main(args.xlsxFile, args.monthYear)
     
-### Instructions to run file
-
-# Open command prompt
-# Command: python xlsxReader.py "C:\path\to\your\file.xlsx" "9/2023"
-# Replace "C:\path\to\your\file.xlsx" with the actual path to the Excel file you want to process.
-# RUN Command in CMD

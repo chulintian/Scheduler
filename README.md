@@ -42,6 +42,6 @@ Before running the Automatic Scheduler, ensure you have the following prerequisi
    - *Replace "C:\path\to\your\file.xlsx" with the actual path to the Excel file you want to process.* 
    - *Replace "month/year" with the actual month/year (e.g. 9/2023) you want to process.* 
   ```
-  python app.py C:\\path\\to\\your\\file.xlsx month/year
+  python app.py C:\path\to\your\file.xlsx month/year
   ```
 
