@@ -23,6 +23,8 @@ def xlsxWriter(people, month, year, shifts):
     worksheet.merge_range('M2:P2', 'Thursday', format2)
     worksheet.merge_range('Q2:T2', 'Friday', format2)
     
+    hoursCol = 65
+    
     mainCalendar[0]
     # date title
     for week in range(0,len(mainCalendar)):
@@ -38,6 +40,7 @@ def xlsxWriter(people, month, year, shifts):
                 # fill people
                 peopleCol = chr(65 + day * 4)
                 peopleRow = row
+                personHoursPerWeek = {}
                 for shiftNum in range(0,3):
                     for i in range(0,2):
                         peopleRow += 1
@@ -47,6 +50,13 @@ def xlsxWriter(people, month, year, shifts):
                                 formatString = f"{peopleCol}{peopleRow}"
                                 worksheet.write(formatString, shift.name, format4)
                                 shifts.remove(shift)
+                                
+                                #update personHoursPerWeek
+                                if shift.name in personHoursPerWeek:
+                                    personHoursPerWeek[shift.name] += 3
+                                else:
+                                    personHoursPerWeek[shift.name] = 3
+                                    
                                 break
                                 
 
@@ -61,7 +71,26 @@ def xlsxWriter(people, month, year, shifts):
                         tempRow += 1
                         worksheet.write(startTimeCol + str(tempRow), startTime, format4)
                         worksheet.write(endTimeCol + str(tempRow), endTime, format4)
-                        worksheet.write(endCol + str(tempRow), '3', format4)
-                            
+                        worksheet.write(endCol + str(tempRow), f'=HOUR({endTimeCol}{tempRow}-{startTimeCol}{tempRow}) + MINUTE({endTimeCol}{tempRow}-{startTimeCol}{tempRow})/60', format4)
+
+                
+                # fill in hours per person per week
+                hoursRow = 47
+                start_cell = f"{chr(hoursCol)}{hoursRow}"
+                end_cell = f"{chr(hoursCol) + 1}{str(hoursRow)}"
+                worksheet.merge_range(start_cell + ':' + end_cell, 'Week ' + str(week), format2)
+
+                hoursRow += 1
+                worksheet.write(chr(hoursCol) + str(hoursRow), "Name", format3)
+                worksheet.write(chr(hoursCol + 1) + str(hoursRow), "Total Hours Per Week", format3)
+                hoursRow += 1
+
+                for name, hours in personHoursPerWeek.items():
+                    worksheet.write(chr(hoursCol) + str(hoursRow), name, format4)
+                    worksheet.write(chr(hoursCol + 1) + str(hoursRow), hours, format4)
+                    hoursRow += 1
+                    
+                hoursCol += 3
+                    
     # Close the workbook to save it
     workbook.close()

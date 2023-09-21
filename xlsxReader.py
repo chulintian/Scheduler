@@ -16,18 +16,18 @@ def xlsxReader(xlsxFileName):
         shifts = []
         unavailableShifts = []
         
-        for j in range(7, sh.max_column+1):
+        for j in range(6, sh.max_column+1):
             cellData = sh.cell(row=i, column=j)
             
             match j:
                 # name
-                case 7:
+                case 6:
                     name = cellData.value
                 
                 # unavailable shifts
-                case 13:
-                    if (cellData.value != "nil"):
-                        unavailableShiftsStr = cellData.value.split(",")
+                case 12:
+                    if (cellData.value != "nil" and cellData.value != None):
+                        unavailableShiftsStr = str(cellData.value).split(",")
                         unavailableShifts = [int(shift) for shift in unavailableShiftsStr]
                 
                 # monday - fridays
@@ -48,16 +48,12 @@ def convertShiftNumber(column, shiftsSelected):
     for shift in shiftsSelected:
         match shift:
             case "930am-1230pm":
-                convertedShifts.append( (column-8, 0) )
+                convertedShifts.append( (column-7, 0) )
             
             case "1230pm-330pm":
-                convertedShifts.append( (column-8, 1) )
+                convertedShifts.append( (column-7, 1) )
 
             case "330pm-630pm":
-                convertedShifts.append( (column-8, 2) )
+                convertedShifts.append( (column-7, 2) )
                 
     return convertedShifts
-    
-# read_xlsx("C:\\Users\\ASUS\\Documents\\School\\Others\\SMU Shop\\Test for SMU Shop(1-4).xlsx")
-
-#C:\\Users\\ASUS\\Documents\\School\\Others\\SMU Shop\\Test for SMU Shop(1-4).xlsx
