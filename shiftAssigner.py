@@ -21,7 +21,7 @@ def shiftAssigner(people, year, month):
                             person = hq.heappop(people)
                             shift.name = person.name
                             putBack.append(person)
-                            if (person.addShift(shift, week)):
+                            if (person.addShift(shift, week, month)):
                                 notAssigned = False
                                 shiftList.append(shift)
 
@@ -41,9 +41,10 @@ class Person:
     def numJobs(self):
         return self.jobs
 
-    def addShift(self, shift, weekNum):
+    def addShift(self, shift, weekNum, month):
+        additionalShiftMonths = [5, 6, 7, 12]
         if (shift.getDayAndShift() in self.desiredShifts and shift.getDate() not in self.daysNotAvailable 
-            and len([x for x in self.shifts if x.equal(shift)]) == 0 and self.week[weekNum] < 5):
+            and len([x for x in self.shifts if x.equal(shift)]) == 0 and (month in additionalShiftMonths and self.week[weekNum] < 12) or (self.week[weekNum] < 5)):
             self.shifts.append(shift)
             self.jobs += 1
             self.week[weekNum] += 1
