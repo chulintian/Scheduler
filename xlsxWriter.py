@@ -78,6 +78,20 @@ def xlsxWriter(people, month, year, shifts):
             hoursRow += 1
             worksheet.write(chr(hoursCol) + str(hoursRow), person.name, format4)
             worksheet.write(chr(hoursCol + 1) + str(hoursRow), person.week[week] * 3 , format4)
+    
+    col = 79
+    row = 47
+    formatString = f"{chr(col)}{row}:{chr(col + 1)}{row}"
+    worksheet.merge_range(formatString, "Total hours", format2)
+    row += 1
+    worksheet.write(chr(col) + str(row), "Name", format3)
+    worksheet.write(chr(col + 1) + str(row), "Total Hours Per Month", format3)
+    
+
+    for person in people:
+        row += 1
+        worksheet.write(chr(col) + str(row), person.name, format4)
+        worksheet.write(chr(col + 1) + str(row), person.jobs * 3 , format4)
                     
                     
     # Close the workbook to save it
