@@ -61,7 +61,7 @@ def xlsxWriter(people, month, year, shifts):
                         tempRow += 1
                         worksheet.write(startTimeCol + str(tempRow), startTime, format4)
                         worksheet.write(endTimeCol + str(tempRow), endTime, format4)
-                        worksheet.write(endCol + str(tempRow), f'={endTimeCol}{tempRow}-{startTimeCol}{tempRow}', format4)
+                        worksheet.write(endCol + str(tempRow), f'=({endTimeCol}{tempRow}-{startTimeCol}{tempRow})*24', format4)
 
                 
         # fill in hours per person per week
